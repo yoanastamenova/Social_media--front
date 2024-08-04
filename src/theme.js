@@ -29,7 +29,8 @@ export const colorTokens = {
     },
   };
   
-  // mui theme settings
+  // dark theme imported with MUI
+
   export const themeSettings = (mode) => {
     return {
       palette: {
