@@ -62,6 +62,7 @@ const Form = () => {
       formData.append(value, values[value]);
     }
     formData.append("picturePath", values.picture.name);
+    console.log("picturePath")
 
     const savedUserResponse = await fetch(
       "http://localhost:3001/auth/register",
