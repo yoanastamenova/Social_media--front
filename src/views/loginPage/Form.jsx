@@ -6,29 +6,29 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
-} from "@mui/material";
+} from "@mui/material"; //mui materials
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
-import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
+import * as yup from "yup"; //validation library
+import { useNavigate } from "react-router-dom"; //to navigate between pages
 import { useDispatch } from "react-redux";
-import { setLogin } from "state";
-import Dropzone from "react-dropzone";
+import { setLogin } from "state"; //state controling
+import Dropzone from "react-dropzone"; //files uploading option
 import FlexBetween from "components/FlexBetween";
 
 const registerSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  password: yup.string().required("required"),
-  location: yup.string().required("required"),
-  occupation: yup.string().required("required"),
-  picture: yup.string().required("required"),
+  firstName: yup.string().required("Required"),
+  lastName: yup.string().required("Required"),
+  email: yup.string().email("Invalid email").required("Required"),
+  password: yup.string().required("Required"),
+  location: yup.string().required("Required"),
+  occupation: yup.string().required("Required"),
+  picture: yup.string().required("Required"),
 });
 
 const loginSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("required"),
-  password: yup.string().required("required"),
+  email: yup.string().email("Invalid email").required("Email cannot be empty"),
+  password: yup.string().required("Password cannot be empty"),
 });
 
 const initialValuesRegister = {
@@ -56,13 +56,11 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
-    const formData = new FormData();
+    const formData = new FormData();      //by this we can send form info with img
     for (let value in values) {
       formData.append(value, values[value]);
     }
     formData.append("picturePath", values.picture.name);
-    console.log("picturePath")
 
     const savedUserResponse = await fetch(
       "http://localhost:3001/auth/register",
