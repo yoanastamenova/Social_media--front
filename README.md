@@ -2,7 +2,7 @@
 
 Welcome to PeakConnect, a mountainers-inspired social media project, designed and developed with versatility and robust functionality in mind. 
 
-<img src="./src/img/logo.png">
+<img src="./public/assets/logo.png">
 
 <hr>
   <summary> Table of contents 📝</summary>
@@ -26,7 +26,7 @@ Welcome to PeakConnect, a mountainers-inspired social media project, designed an
 
 The main idea for the project was recreating a social media for people that love meeting other people and go on mountain adventures with them. Constructed with the use of non-relational database technology (MongoDB in conjunction with the Mongoose library), this API gives birth to a social media application where users can engage, share, and interact through texts and image posts. It has the same functions as most famous social medias but this specific one is created only for the people in the mountains. Hope you like it!
 
-<img src="./src/img/view.webp">
+<img src="./public/assets/view.webp">
 
 ## Core Features
 
@@ -46,7 +46,7 @@ With successfully achieving the development milestone and deploying the project 
 
 Stay tuned for this exciting update! :)
 
-<img src="./src/img/giphy.webp">
+<img src="./public/assets/giphy.webp">
 
 ## Deploy 🚀
 
@@ -84,7 +84,7 @@ Used technologies for the project:
 
 ## Schema from Mongo
 
-<img src="./src/img/monogsch.png">
+<img src="./public/assets/monogsch.png">
 
 - 1 Strong entitiy 
     - Users (can exist by itself without depending on another entitiy).
@@ -106,46 +106,6 @@ the posts and users as a post cannot exist by itself. A post can have likes such
 3. `npm install`  (to get all the npm needed packages)
 4. `npm run dev` to run our server
 5. ` npm run seed ` to fill our documents
-
-
-## Endpoints
-
-### Authentication 👓
-| Method | URI                    | Action           | Auth        | Body |
-|--------|------------------------|------------------|-------------|------|
-| POST   | /api/auth/register     | Register user    | N/A (public)|{ "email": "youremail@email.com", "password": "yourPassword" }    |
-| POST   | /api/auth/login        | Login user       | N/A (public)|{ "email": "youremail@email.com", "password": "yourPassword" }      |
-### Users 👦🏻 👩🏻
-| Method | URI                   | Action              | Auth                | Body |
-|--------|-----------------------|---------------------|---------------------|------|
-| GET    | /api/users/all            | View all users      | Token (admin)   |      |
-| GET    | /api/users/profile    | View user profile   | Token (user)        |      |
-| PUT    | /api/users/profile/update    | Update user profile | Token (user) | info to update     |
-| GET    | /api/users/email    | Get user by email  | Token (user) | "email": "mail@ex.com"  |
-| DELETE | /api/users/:id   | Delete user by id  | Token (user)        |      |
-| PUT    | /api/users/role   | Update user role  | Token (user)        | "role": "admin"   |
-### Posts ✍🏻
-| Method | URI                        | Action                | Auth        | Body |
-|--------|----------------------------|-----------------------|-------------|------|
-| POST   | /api/posts/create                 | Create post           | Token (user)|      |
-| DELETE | /api/posts/delete/:id             | Delete post           | Token (user)|      |
-| PUT    | /api/posts/update/:id                 | Update post           | Token (user)| info to change    |
-| GET    | /api/posts/own             | Get own posts         | Token (user)|      |
-| GET    | /api/posts/all             | Get all posts         |  Admin |      |
-| GET    | /api/posts/:id             | Get post by id        | Admin |     |
-| GET    | /api/users/posts/user/:id  | Get posts by a user id  | Admin |      |
-### Like 🫶🏻
-| Method | URI                        | Action                | Auth          | Body |
-|--------|----------------------------|-----------------------|---------------|------|
-| POST    | /api/posts/likePost/:id        | Like/Dislike post by id | Token (user)  |      |  
-### Follow 👋🏻
-| Method | URI                        | Action                | Auth          | Body |
-|--------|----------------------------|-----------------------|---------------|------|
-| POST    | /api/users/followUnf/:id       | Follow/Unfollow user from id| Token (user)  |      |                                      |
-### Timeline 🏄🏻‍♂️
-| Method | URI                        | Action                | Auth          | Body |
-|--------|----------------------------|-----------------------|---------------|------|
-| GET    | /api/users/timeline       | Shows user timeline | Token (user)  |      |                                       |
 
 
 ## Future functionalities
