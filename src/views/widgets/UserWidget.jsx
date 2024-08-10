@@ -4,7 +4,7 @@ import {
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
-import { Box, Typography, Divider, useTheme } from "@mui/material";
+import { Box, Typography, Divider, useTheme, Button } from "@mui/material";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -14,134 +14,233 @@ import { useNavigate } from "react-router-dom";
 
 const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
+  const [editableUser, setEditableUser] = useState({
+    firstName: "",
+    lastName: "",
+    location: "",
+    occupation: "",
+  });
+  const [isEditing, setIsEditing] = useState(false);
   const { palette } = useTheme();
   const navigate = useNavigate();
   const token = useSelector((state) => state.token);
-  const dark = palette.neutral.dark;
-  const medium = palette.neutral.medium;
-  const main = palette.neutral.main;
-
-  const getUser = async () => {
-    const response = await fetch(`http://localhost:3001/users/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    setUser(data);
-  };
+  const currentUser = useSelector((state) => state.user);
+  const currentUserID = currentUser ? currentUser._id : null;
 
   useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch(`http://localhost:3001/users/${userId}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      setUser(data);
+      setEditableUser({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        location: data.location,
+        occupation: data.occupation,
+      });
+    };
     getUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [userId, token]);
+
+  const toggleEditMode = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const saveChanges = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/users/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Ensure token is valid and not expired
+        },
+        body: JSON.stringify({
+          firstName: editableUser.firstName,
+          lastName: editableUser.lastName,
+          location: editableUser.location,
+          occupation: editableUser.occupation,
+          email: editableUser.email, // Add other fields as per your user model
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update user profile");
+      }
+      const updatedUser = await response.json();
+      setUser(updatedUser); 
+      setIsEditing(false); 
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+    }
+  };
+
+  const cancelChanges = () => {
+    setEditableUser({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      location: user.location,
+      occupation: user.occupation,
+    });
+    setIsEditing(false);
+  };
 
   if (!user) {
     return null;
   }
 
-  const {
-    firstName,
-    lastName,
-    location,
-    occupation,
-    viewedProfile,
-    impressions,
-    friends,
-  } = user;
-
   return (
     <WidgetWrapper>
-      {/* FIRST ROW */}
-      <FlexBetween
-        gap="0.5rem"
-        pb="1.1rem"
-        onClick={() => navigate(`/profile/${userId}`)}
-      >
+      <FlexBetween gap="0.5rem" pb="1.1rem">
         <FlexBetween gap="1rem">
           <UserImage image={picturePath} />
           <Box>
-            <Typography
-              variant="h4"
-              color={dark}
-              fontWeight="500"
-              sx={{
-                "&:hover": {
-                  color: palette.primary.light,
-                  cursor: "pointer",
-                },
-              }}
-            >
-              {firstName} {lastName}
+            {isEditing ? (
+              <Box>
+                <input
+                  type="text"
+                  value={editableUser.firstName}
+                  onChange={(e) =>
+                    setEditableUser({
+                      ...editableUser,
+                      firstName: e.target.value,
+                    })
+                  }
+                />
+                <input
+                  type="text"
+                  value={editableUser.lastName}
+                  onChange={(e) =>
+                    setEditableUser({
+                      ...editableUser,
+                      lastName: e.target.value,
+                    })
+                  }
+                />
+              </Box>
+            ) : (
+              <Typography
+                variant="h4"
+                color={palette.neutral.dark}
+                fontWeight="500"
+                sx={{
+                  "&:hover": {
+                    color: palette.primary.light,
+                    cursor: "pointer",
+                  },
+                }}
+                onClick={() => navigate(`/profile/${userId}`)}
+              >
+                {user.firstName} {user.lastName}
+              </Typography>
+            )}
+            <Typography color={palette.neutral.medium}>
+              {user.friends.length} friends
             </Typography>
-            <Typography color={medium}>{friends.length} friends</Typography>
           </Box>
         </FlexBetween>
-        <ManageAccountsOutlined />
+        {currentUserID === userId && (
+          <ManageAccountsOutlined
+            sx={{ cursor: "pointer" }}
+            onClick={toggleEditMode}
+          />
+        )}
       </FlexBetween>
-
       <Divider />
-
-      {/* SECOND ROW */}
       <Box p="1rem 0">
         <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
-          <LocationOnOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{location}</Typography>
+          <LocationOnOutlined
+            fontSize="large"
+            sx={{ color: palette.neutral.main }}
+          />
+          {isEditing ? (
+            <input
+              type="text"
+              value={editableUser.location}
+              onChange={(e) =>
+                setEditableUser({ ...editableUser, location: e.target.value })
+              }
+            />
+          ) : (
+            <Typography color={palette.neutral.medium}>
+              {user.location}
+            </Typography>
+          )}
         </Box>
         <Box display="flex" alignItems="center" gap="1rem">
-          <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{occupation}</Typography>
+          <WorkOutlineOutlined
+            fontSize="large"
+            sx={{ color: palette.neutral.main }}
+          />
+          {isEditing ? (
+            <input
+              type="text"
+              value={editableUser.occupation}
+              onChange={(e) =>
+                setEditableUser({ ...editableUser, occupation: e.target.value })
+              }
+            />
+          ) : (
+            <Typography color={palette.neutral.medium}>
+              {user.occupation}
+            </Typography>
+          )}
         </Box>
       </Box>
-
-      <Divider />
-
-      {/* THIRD ROW */}
-      <Box p="1rem 0">
-        <FlexBetween mb="0.5rem">
-          <Typography color={medium}>Who's viewed your profile</Typography>
-          <Typography color={main} fontWeight="500">
-            {viewedProfile}
-          </Typography>
+      {isEditing && (
+        <FlexBetween width="100%" justifyContent="flex-end" mb="0.5rem">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={saveChanges}
+            sx={{ mr: 1 }}
+          >
+            Save
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={cancelChanges}>
+            Cancel
+          </Button>
         </FlexBetween>
-        <FlexBetween>
-          <Typography color={medium}>Impressions of your post</Typography>
-          <Typography color={main} fontWeight="500">
-            {impressions}
-          </Typography>
-        </FlexBetween>
-      </Box>
-
+      )}
       <Divider />
-
-      {/* FOURTH ROW */}
+      {/* Social Profiles Section Reintegration */}
       <Box p="1rem 0">
-        <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
+        <Typography
+          fontSize="1rem"
+          color={palette.neutral.main}
+          fontWeight="500"
+          mb="1rem"
+        >
           Social Profiles
         </Typography>
-
         <FlexBetween gap="1rem" mb="0.5rem">
           <FlexBetween gap="1rem">
             <img src="../assets/twitter.png" alt="twitter" />
             <Box>
-              <Typography color={main} fontWeight="500">
+              <Typography color={palette.neutral.main} fontWeight="500">
                 Twitter
               </Typography>
-              <Typography color={medium}>Social Network</Typography>
+              <Typography color={palette.neutral.medium}>
+                Social Network
+              </Typography>
             </Box>
           </FlexBetween>
-          <EditOutlined sx={{ color: main }} />
+          <EditOutlined sx={{ color: palette.neutral.main }} />
         </FlexBetween>
-
         <FlexBetween gap="1rem">
           <FlexBetween gap="1rem">
             <img src="../assets/linkedin.png" alt="linkedin" />
             <Box>
-              <Typography color={main} fontWeight="500">
-                Linkedin
+              <Typography color={palette.neutral.main} fontWeight="500">
+                LinkedIn
               </Typography>
-              <Typography color={medium}>Network Platform</Typography>
+              <Typography color={palette.neutral.medium}>
+                Network Platform
+              </Typography>
             </Box>
           </FlexBetween>
-          <EditOutlined sx={{ color: main }} />
+          <EditOutlined sx={{ color: palette.neutral.main }} />
         </FlexBetween>
       </Box>
     </WidgetWrapper>

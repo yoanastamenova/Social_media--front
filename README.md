@@ -174,3 +174,9 @@ Forever gratefull to GeeksHubs Academy for the oportunety to learn and grow on m
 <a href="https://www.linkedin.com/in/linkedinUser/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
 
 </p>
+
+<p> 
+- profile update USER
+- post edit/delete USER
+- Admin dash
+</p>

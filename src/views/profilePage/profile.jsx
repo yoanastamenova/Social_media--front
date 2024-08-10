@@ -22,12 +22,32 @@ const ProfilePage = () => {
     setUser(data);
   };
 
+  const refreshUserData = () => {
+    getUser();
+  };
+
   useEffect(() => {
     getUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
 
+  const handleDeletePost = async (postId) => {
+    const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (response.ok) {
+      alert("Post deleted successfully.");
+      refreshUserData();
+    } else {
+      alert("Failed to delete the post.");
+    }
+  };
+
+  if (!user) return null;
+  
   return (
     <Box>
       <Navbar />
@@ -48,7 +68,11 @@ const ProfilePage = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           <Box m="2rem 0" />
-          <PostsWidget userId={userId} isProfile />
+          <PostsWidget userId={userId} 
+          isProfile={true} 
+          refreshPosts={refreshUserData} 
+          onDelete={handleDeletePost}
+          />
         </Box>
       </Box>
     </Box>

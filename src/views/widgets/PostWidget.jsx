@@ -2,7 +2,8 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  ShareOutlined,
+  DeleteForeverOutlined,
+  EditOutlined,
 } from "@mui/icons-material";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
@@ -22,6 +23,7 @@ const PostWidget = ({
   userPicturePath,
   likes,
   comments,
+  onDelete,
 }) => {
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
@@ -88,10 +90,23 @@ const PostWidget = ({
           </FlexBetween>
         </FlexBetween>
 
-        <IconButton>
-          <ShareOutlined />
-        </IconButton>
+        <FlexBetween gap="1rem">
+          <FlexBetween gap="0.3rem">
+            <IconButton onClick={patchLike}>
+              <EditOutlined />
+            </IconButton>
+            <Typography>Edit</Typography>
+          </FlexBetween>
+
+          <FlexBetween gap="0.3rem">
+            <IconButton onClick={() => onDelete(postId)}>
+              <DeleteForeverOutlined />
+            </IconButton>
+            <Typography>Delete</Typography>
+          </FlexBetween>
+        </FlexBetween>
       </FlexBetween>
+
       {isComments && (
         <Box mt="0.5rem">
           {comments.map((comment, i) => (
