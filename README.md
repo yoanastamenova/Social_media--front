@@ -121,8 +121,8 @@ Used technologies for the project:
 ## Views
 
 <div align="center"> 
+   <img src="./public/assets/login.png"/>
    <img src="./public/assets/HomePage.png"/>
-   <img src="./public/assets/Profile.png"/>
 </div>
 
 
