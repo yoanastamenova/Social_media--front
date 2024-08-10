@@ -1,4 +1,4 @@
-# Social Media Project ❤️
+# Social Media Project Frontend ❤️
 
 Welcome to PeakConnect, a mountainers-inspired social media project, designed and developed with versatility and robust functionality in mind. 
 
@@ -28,31 +28,6 @@ The main idea for the project was recreating a social media for people that love
 
 <img src="./public/assets/view.webp">
 
-## Core Features ⚒
-
-#### User Authentication:
-
-- Register new users.
-- Login with email and password.
-
-#### Posts Managment:
-
-- Create, update, delete new post.
-- Search for a specific post or user via the search bar.
-
-#### Admin Dashboard:
-
-- Browse users and manage them if wanted.
-- Select posts, delete posts and continuous development.
-
-#### Interactive UI:
-
-- Responsive design ensuring compatibility across various devices and screen sizes.
-- Dashboard for Admins/Super Admins:
-  Manage posts, users, and user roles.
-
-
-<img src="./public/assets/giphy.webp">
 
 ## Deploy 🚀
 
@@ -77,25 +52,52 @@ Used technologies for the project:
  <a href="https://axios-http.com/"> 
  <img src= "https://img.shields.io/badge/Axios-6700DF?style=for-the-badge&logo=axios&logoColor=white"/> 
  </a> 
-  <a href="https://axios-http.com/"> 
- <img src= "https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"/> 
+  <a href="https://materialui.com/"> 
+ <img src= "https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white"/> 
  </a> 
-   <a href="https://axios-http.com/"> 
+   <a href="https://reactrouter.com/"> 
  <img src= "https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white"/> 
  </a> 
-   <a href="https://axios-http.com/"> 
+   <a href="https://node.com/"> 
  <img src= "https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/> 
  </a> 
-    <a href="https://axios-http.com/"> 
+    <a href="https://npm.com/"> 
  <img src= "https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"/> 
  </a>
-     <a href="https://axios-http.com/"> 
- <img src= "https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E"/> 
+     <a href="https://redux.com/"> 
+ <img src= "https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white"/> 
  </a>
-      <a href="https://axios-http.com/"> 
+      <a href="https://jwtdecoded.com/"> 
  <img src= "https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white"/> 
  </a>
  </div>
+
+
+## Features ⚒
+
+#### User Authentication:
+
+- Register new users.
+- Login with email and password.
+
+#### Posts Managment:
+
+- Create, update, delete new post.
+- Search for a specific post or user via the search bar.
+
+#### Admin Dashboard:
+
+- Browse users and manage them if wanted.
+- Select posts, delete posts and continuous development.
+
+#### Interactive UI:
+
+- Responsive design ensuring compatibility across various devices and screen sizes.
+- Dashboard for Admins/Super Admins:
+  Manage posts, users, and user roles.
+
+
+<img src="./public/assets/giphy.webp">
 
 ## Local installation option ⚙️
 
@@ -176,7 +178,6 @@ Forever gratefull to GeeksHubs Academy for the oportunety to learn and grow on m
 </p>
 
 <p> 
-- profile update USER
 - post edit/delete USER
 - Admin dash
 </p>
