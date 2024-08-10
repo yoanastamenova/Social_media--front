@@ -5,107 +5,125 @@ Welcome to PeakConnect, a mountainers-inspired social media project, designed an
 <img src="./public/assets/logo.png">
 
 <hr>
-  <summary> Table of contents 📝</summary>
-  <ol>
-    <li><a href="#about-the-project">About the project</a></li>
-    <li><a href="#deploy-🚀">Deploy</a></li>
-    <li><a href="#stack">Stack</a></li>
-    <li><a href="#er-diagram-from-sql">Database Diagram</a></li>
-    <li><a href="#clond">Clone</a></li>
-    <li><a href="#endpoints">Endpoints</a></li>
-    <li><a href="#future-functionalities">Future functionalities</a></li>
-    <li><a href="#contributions">Contributions</a></li>
-    <li><a href="#development">Development</a></li>
-    <li><a href="#appreciations">Appreciations</a></li>
+
+<summary> Table of contents 📝</summary> 
+    <ol> 
+    <li><a href="#about-the-project-📁">About the project</a></li> 
+    <li><a href="#deploy-🚀">Deploy</a></li> 
+    <li><a href="#stack">Stack</a></li> 
+    <li><a href="#local-installation-option">Clone</a></li> 
+    <li><a href="#features-⚒">Features</a></li> 
+    <li><a href="#future-improvements">Future Improvements</a></li> 
+    <li><a href="#contributions">Contribution</a></li> 
+    <li><a href="#development">Development</a></li>    
+    <li><a href="#appreciations">Appreciation</a></li> 
     <li><a href="#contact">Contact</a></li>
-  </ol>
+    </ol>
 
 <hr>
 
 ## About the project
 
-The main idea for the project was recreating a social media for people that love meeting other people and go on mountain adventures with them. Constructed with the use of non-relational database technology (MongoDB in conjunction with the Mongoose library), this API gives birth to a social media application where users can engage, share, and interact through texts and image posts. It has the same functions as most famous social medias but this specific one is created only for the people in the mountains. Hope you like it!
+The main idea for the project was recreating a social media for people that love meeting other people and go on mountain adventures with them. Constructed with the use of non-relational database technology (MongoDB in conjunction with the Mongoose library), this web page gives birth to a social media application where users can engage, share, and interact through texts and image posts. It has the same functions as most famous social medias but this specific one is created only for the people in the mountains. Hope you like it!
 
 <img src="./public/assets/view.webp">
 
-## Core Features
+## Core Features ⚒
 
-Our API boasts an array of features focused on delivering an engaging and seamless user experience. The core functionalities include:
+#### User Authentication:
 
-- User Management: Enabling users to register, log in, update their profile, and check out their personal details on their profile.
+- Register new users.
+- Login with email and password.
 
-- Post Management: Users can create, update, and delete their posts. They can also view their own posts as well as posts created by other users. The option to find a specific post adds an additional layer of navigation.
+#### Posts Managment:
 
-- Interaction: Users can like or dislike posts to express their sentiments. A follow/unfollow feature is also available, allowing users to curate the posts they see based on their preferences.
+- Create, update, delete new post.
+- Search for a specific post or user via the search bar.
 
-- Admin Control: Special functionalities are available exclusively for administrators and super administrators, ensuring streamlined content and community management.
+#### Admin Dashboard:
 
-- In addition, the use of seeders offers a quick and efficient method for data insertion during a database refresh. Middleware support exists for implementing authentication processes such as tokenization.
+- Browse users and manage them if wanted.
+- Select posts, delete posts and continuous development.
 
-With successfully achieving the development milestone and deploying the project to production, the next exciting step is creating a dynamic front-end view using React. This will not only enhance the user interface but also ensure a cohesive, interactive, and intuitive user experience!
+#### Interactive UI:
 
-Stay tuned for this exciting update! :)
+- Responsive design ensuring compatibility across various devices and screen sizes.
+- Dashboard for Admins/Super Admins:
+  Manage posts, users, and user roles.
+
 
 <img src="./public/assets/giphy.webp">
 
 ## Deploy 🚀
 
 <div align="center">
-    <a href="https://social-media-app.zeabur.app"><strong> Click here! </strong></a>🚀🚀🚀
+    <a href="https://social-media-app.zeabur.app"><strong> github.io/peak-connect </strong></a>🚀🚀🚀
 </div>
 
 ## Stack
 
 Used technologies for the project:
 
-<div align="center">
-<a href="https://www.expressjs.com/">
-    <img src= "https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB"/>
-</a>
-<a href="https://nodejs.org/es/">
-    <img src= "https://img.shields.io/badge/node.js-026E00?style=for-the-badge&logo=node.js&logoColor=white"/>
-</a>
-<a href="https://developer.mozilla.org/es/docs/Web/JavaScript">
-    <img src= "https://img.shields.io/badge/javascipt-EFD81D?style=for-the-badge&logo=javascript&logoColor=black"/>
-</a>
-<a href="">
-    <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white"/>
-</a>
-<a href="">
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
-</a>
-<a href="">
-    <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT" />
-</a>
-<a href="">
-    <img src="https://img.shields.io/badge/bcrypt-3178C6?style=for-the-badge&" alt="TypeScript" />
-</a>
+<div align="center"> 
+<a href="https://reactjs.org/"> 
+<img src= "https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/> 
+</a> 
+<a href="https://www.typescriptlang.org/"> 
+<img src= "https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
+ </a>
+ <a href="https://sass-lang.com/"> 
+ <img src= "https://img.shields.io/badge/Sass-HF569B?style=for-the-badge&logo=sass&logoColor=white"/> 
+ </a> 
+ <a href="https://axios-http.com/"> 
+ <img src= "https://img.shields.io/badge/Axios-6700DF?style=for-the-badge&logo=axios&logoColor=white"/> 
+ </a> 
+  <a href="https://axios-http.com/"> 
+ <img src= "https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white"/> 
+ </a> 
+   <a href="https://axios-http.com/"> 
+ <img src= "https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white"/> 
+ </a> 
+   <a href="https://axios-http.com/"> 
+ <img src= "https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/> 
+ </a> 
+    <a href="https://axios-http.com/"> 
+ <img src= "https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"/> 
+ </a>
+     <a href="https://axios-http.com/"> 
+ <img src= "https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E"/> 
+ </a>
+      <a href="https://axios-http.com/"> 
+ <img src= "https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white"/> 
+ </a>
  </div>
 
-## Schema from Mongo
+## Local installation option ⚙️
 
-<img src="./public/assets/monogsch.png">
+1. Clone the repository from the URL:
+   `git clone https://github.com/yoanastamenova/Social_media--front.git`
+2. Go into the cloned repostiory
+   ` cd tattoo-studio-front`
+3. Install npm packages:
+   `npm install `
+4. From the REST API project clone it as well from this link:
+   `git clone https://github.com/yoanastamenova/Social_media--back.git`
 
-- 1 Strong entitiy 
-    - Users (can exist by itself without depending on another entitiy).
-- 2 Weak entities 
-    - Posts (depends on users, it must be written/posted by a user).
-    - Friends (related between users)
-<br>
+    Start the REST API server: 
+   `npm run dev` 
+   wait for "Server is running on port: 2132" message in the terminal
 
-Even that we have a non relational database project, there is a relation between
-the posts and users as a post cannot exist by itself. A post can have likes such as user can have users that he/she follows and on the contrary users that are following.
+- If you dont have Mongo installed locally you can check the documentation of the REST API for a docker command to obtain it
 
-## Local installation guide
+5. Start the React project
+   `npm start `
+   Open http://localhost:3000(or whatever path it was given) to view the project web page view in the browser.
 
-1. Clone the repository from the url:
-`git clone https://github.com/yoanastamenova/Social_media.git `
-2. Connect the cloned repo with MongoDB 
--  If you dont have Mongo we can use already existing Mongo container from Docker with the following command:
-` docker run -d -p 27017:27017 --name mongo -v mongo_data:/data/db -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=root mongo:latest `
-3. `npm install`  (to get all the npm needed packages)
-4. `npm run dev` to run our server
-5. ` npm run seed ` to fill our documents
+## Views
+
+<div align="center"> 
+   <img src="./public/assets/HomePage.png"/>
+   <img src="./public/assets/Profile.png"/>
+</div>
 
 
 ## Future functionalities
