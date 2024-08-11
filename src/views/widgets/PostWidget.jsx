@@ -90,21 +90,16 @@ const PostWidget = ({
           </FlexBetween>
         </FlexBetween>
 
-        <FlexBetween gap="1rem">
-          <FlexBetween gap="0.3rem">
-            <IconButton onClick={patchLike}>
+        {loggedInUserId === postUserId && (
+          <FlexBetween gap="1rem">
+            <IconButton onClick={() => console.log("Edit clicked")}>
               <EditOutlined />
             </IconButton>
-            <Typography>Edit</Typography>
-          </FlexBetween>
-
-          <FlexBetween gap="0.3rem">
             <IconButton onClick={() => onDelete(postId)}>
               <DeleteForeverOutlined />
             </IconButton>
-            <Typography>Delete</Typography>
           </FlexBetween>
-        </FlexBetween>
+        )}
       </FlexBetween>
 
       {isComments && (
