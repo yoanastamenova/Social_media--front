@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
 
-const PostsWidget = ({ userId, isProfile = false, onDelete }) => { 
+const PostsWidget = ({ userId, isProfile = false }) => { 
   const dispatch = useDispatch(); 
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
-
+  
   const getPosts = async () => {
     const response = await fetch("http://localhost:3001/posts", {
       method: "GET",
@@ -16,9 +16,10 @@ const PostsWidget = ({ userId, isProfile = false, onDelete }) => {
     const data = await response.json();
     dispatch(setPosts({ posts: data }));
   };
-
+  
+  const refreshPosts = isProfile ? getUserPosts : getPosts;
   const getUserPosts = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${userId}/posts`, {
+    const response = await fetch(`http://localhost:3001/${userId}/posts`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -26,13 +27,22 @@ const PostsWidget = ({ userId, isProfile = false, onDelete }) => {
     dispatch(setPosts({ posts: data }));
   };
 
-  useEffect(() => {
-    if (isProfile) {
-      getUserPosts();
+  const handleDelete = async (postId) => {
+    const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (response.ok) {
+      refreshPosts();
+      alert("Post deleted successfully");
     } else {
-      getPosts();
+      alert("Failed to delete the post.");
     }
-  }, [userId]); 
+  };
+
+  useEffect(() => {
+    refreshPosts();
+  }, [userId, refreshPosts]); 
 
   return (
     <>
@@ -48,7 +58,7 @@ const PostsWidget = ({ userId, isProfile = false, onDelete }) => {
           userPicturePath={post.userPicturePath}
           likes={post.likes}
           comments={post.comments}
-          onDelete={onDelete} 
+          onDelete={handleDelete} 
         />
       ))}
     </>
