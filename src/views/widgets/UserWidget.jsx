@@ -2,7 +2,7 @@ import {
   ManageAccountsOutlined,
   EditOutlined,
   LocationOnOutlined,
-  WorkOutlineOutlined
+  WorkOutlineOutlined,
 } from "@mui/icons-material";
 import { Box, Typography, Divider, useTheme, Button } from "@mui/material";
 import UserImage from "components/UserImage";
@@ -69,8 +69,8 @@ const UserWidget = ({ userId, picturePath }) => {
         throw new Error("Failed to update user profile");
       }
       const updatedUser = await response.json();
-      setUser(updatedUser); 
-      setIsEditing(false); 
+      setUser(updatedUser);
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating user profile:", error);
     }
@@ -226,8 +226,11 @@ const UserWidget = ({ userId, picturePath }) => {
               </Typography>
             </Box>
           </FlexBetween>
-          <EditOutlined sx={{ color: palette.neutral.main }} />
+          {currentUserID === userId && (
+            <EditOutlined sx={{ color: palette.neutral.main }} />
+          )}
         </FlexBetween>
+
         <FlexBetween gap="1rem">
           <FlexBetween gap="1rem">
             <img src="../assets/linkedin.png" alt="linkedin" />
@@ -240,7 +243,9 @@ const UserWidget = ({ userId, picturePath }) => {
               </Typography>
             </Box>
           </FlexBetween>
-          <EditOutlined sx={{ color: palette.neutral.main }} />
+          {currentUserID === userId && (
+            <EditOutlined sx={{ color: palette.neutral.main }} />
+          )}
         </FlexBetween>
       </Box>
     </WidgetWrapper>

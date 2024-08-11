@@ -49,6 +49,29 @@ const PostWidget = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
+  const handleDeletePost = async (postId, userId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/profile/${userId}/posts/${postId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`  // Ensure your token is correctly sent
+        }
+      });
+  
+      if (response.ok) {
+        alert('Post deleted successfully');
+        // Optionally refresh your posts list or implement further state updates on UI
+      } else {
+        const errorData = await response.json();
+        alert('Failed to delete the post: ' + errorData.message);
+      }
+    } catch (error) {
+      console.error('Error while deleting post:', error);
+      alert('Network error while deleting post');
+    }
+  };
+  
+
   return (
     <WidgetWrapper m="2rem 0">
       <Friend
@@ -90,21 +113,16 @@ const PostWidget = ({
           </FlexBetween>
         </FlexBetween>
 
-        <FlexBetween gap="1rem">
-          <FlexBetween gap="0.3rem">
-            <IconButton onClick={patchLike}>
+        {loggedInUserId === postUserId && (
+          <FlexBetween gap="1rem">
+            <IconButton onClick={() => console.log("Edit clicked")}>
               <EditOutlined />
             </IconButton>
-            <Typography>Edit</Typography>
-          </FlexBetween>
-
-          <FlexBetween gap="0.3rem">
             <IconButton onClick={() => onDelete(postId)}>
               <DeleteForeverOutlined />
             </IconButton>
-            <Typography>Delete</Typography>
           </FlexBetween>
-        </FlexBetween>
+        )}
       </FlexBetween>
 
       {isComments && (
