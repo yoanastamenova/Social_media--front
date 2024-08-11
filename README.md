@@ -179,6 +179,5 @@ Forever gratefull to GeeksHubs Academy for the oportunety to learn and grow on m
 </p>
 
 <p> 
-- post edit/delete USER
 - Admin dash & search bar
 </p>
