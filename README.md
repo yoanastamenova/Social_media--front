@@ -125,6 +125,7 @@ Used technologies for the project:
 <div align="center"> 
    <img src="./public/assets/login.png"/>
    <img src="./public/assets/HomePage.png"/>
+   <img src="./public/assets/white.png"/>
 </div>
 
 
