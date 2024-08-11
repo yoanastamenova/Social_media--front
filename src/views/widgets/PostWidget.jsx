@@ -12,6 +12,9 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
+import TextField from '@mui/material/TextField';
+import CheckIcon from '@mui/icons-material/Check';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const PostWidget = ({
   postId,
@@ -35,6 +38,8 @@ const PostWidget = ({
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+  const [editMode, setEditMode] = useState(false);
+  const [editedDescription, setEditedDescription] = useState(description);
 
   const patchLike = async () => {
     const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
@@ -73,10 +78,38 @@ const PostWidget = ({
     }
   };
 
-  // Usage in IconButton
-  <IconButton onClick={() => handleDeletePost(postId)}>
-    <DeleteForeverOutlined />
-  </IconButton>;
+  const handleEdit = () => {
+    setEditMode(true);
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ description: editedDescription }),
+      });
+      const updatedPost = await response.json();
+      if (response.ok) {
+        dispatch(setPost({ post: updatedPost }));
+        setEditMode(false);
+      } else {
+        const errorData = await response.json();
+        alert("Failed to update the post: " + errorData.message);
+      }
+    } catch (error) {
+      console.error("Error while updating post:", error);
+      alert("Network error while updating post");
+    }
+  };
+
+  const handleCancel = () => {
+    setEditedDescription(description);
+    setEditMode(false);
+  };
 
   return (
     <WidgetWrapper m="2rem 0">
@@ -86,9 +119,21 @@ const PostWidget = ({
         subtitle={location}
         userPicturePath={userPicturePath}
       />
-      <Typography color={main} sx={{ mt: "1rem" }}>
-        {description}
-      </Typography>
+      <Box sx={{ mt: "1rem" }}>
+        {editMode ? (
+            <TextField
+                fullWidth
+                multiline
+                variant="outlined"
+                value={editedDescription}
+                onChange={(e) => setEditedDescription(e.target.value)}
+            />
+        ) : (
+            <Typography color={main}>
+                {description}
+            </Typography>
+        )}
+      </Box>
       {picturePath && (
         <img
           width="100%"
@@ -100,41 +145,50 @@ const PostWidget = ({
       )}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
-          <FlexBetween gap="0.3rem">
-            <IconButton onClick={patchLike}>
-              {isLiked ? (
-                <FavoriteOutlined sx={{ color: primary }} />
-              ) : (
-                <FavoriteBorderOutlined />
-              )}
-            </IconButton>
-            <Typography>{likeCount}</Typography>
-          </FlexBetween>
+          <IconButton onClick={patchLike}>
+            {isLiked ? (
+              <FavoriteOutlined sx={{ color: primary }} />
+            ) : (
+              <FavoriteBorderOutlined />
+            )}
+          </IconButton>
+          <Typography>{likeCount}</Typography>
 
-          <FlexBetween gap="0.3rem">
-            <IconButton onClick={() => setIsComments(!isComments)}>
-              <ChatBubbleOutlineOutlined />
-            </IconButton>
-            <Typography>{comments.length}</Typography>
-          </FlexBetween>
+          <IconButton onClick={() => setIsComments(!isComments)}>
+            <ChatBubbleOutlineOutlined />
+          </IconButton>
+          <Typography>{comments.length}</Typography>
         </FlexBetween>
 
         {loggedInUserId === postUserId && (
           <FlexBetween gap="1rem">
-            <IconButton onClick={() => console.log("Edit clicked")}>
-              <EditOutlined />
-            </IconButton>
-            <IconButton onClick={() => handleDeletePost(postId)}>
-              <DeleteForeverOutlined />
-            </IconButton>
+            {editMode ? (
+                <>
+                    <IconButton onClick={handleSave}>
+                        <CheckIcon />
+                    </IconButton>
+                    <IconButton onClick={handleCancel}>
+                        <CancelIcon />
+                    </IconButton>
+                </>
+            ) : (
+                <>
+                    <IconButton onClick={handleEdit}>
+                        <EditOutlined />
+                    </IconButton>
+                    <IconButton onClick={() => handleDeletePost(postId)}>
+                        <DeleteForeverOutlined />
+                    </IconButton>
+                </>
+            )}
           </FlexBetween>
         )}
       </FlexBetween>
 
       {isComments && (
         <Box mt="0.5rem">
-          {comments.map((comment, i) => (
-            <Box key={`${name}-${i}`}>
+          {comments.map((comment, index) => (
+            <Box key={`${name}-${index}`}>
               <Divider />
               <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
                 {comment}
@@ -146,6 +200,6 @@ const PostWidget = ({
       )}
     </WidgetWrapper>
   );
-};
+}
 
 export default PostWidget;
