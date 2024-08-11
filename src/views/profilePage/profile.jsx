@@ -33,7 +33,7 @@ const ProfilePage = () => {
   if (!user) return null;
 
   const handleDeletePost = async (postId) => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+    const response = await fetch(`http://localhost:3001/${userId}/posts/${postId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

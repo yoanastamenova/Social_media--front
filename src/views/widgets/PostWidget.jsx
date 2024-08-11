@@ -49,28 +49,34 @@ const PostWidget = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
-  const handleDeletePost = async (postId, userId) => {
+  const handleDeletePost = async (postId) => {
     try {
-      const response = await fetch(`http://localhost:3001/profile/${userId}/posts/${postId}`, {
-        method: 'DELETE',
+      const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+        method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`  // Ensure your token is correctly sent
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
-  
+
       if (response.ok) {
-        alert('Post deleted successfully');
-        // Optionally refresh your posts list or implement further state updates on UI
+        alert("Post deleted successfully");
+        if (onDelete) {
+          onDelete(postId); // Notify parent component to update the UI
+        }
       } else {
         const errorData = await response.json();
-        alert('Failed to delete the post: ' + errorData.message);
+        alert("Failed to delete the post: " + errorData.message);
       }
     } catch (error) {
-      console.error('Error while deleting post:', error);
-      alert('Network error while deleting post');
+      console.error("Error while deleting post:", error);
+      alert("Network error while deleting post");
     }
   };
-  
+
+  // Usage in IconButton
+  <IconButton onClick={() => handleDeletePost(postId)}>
+    <DeleteForeverOutlined />
+  </IconButton>;
 
   return (
     <WidgetWrapper m="2rem 0">
@@ -118,7 +124,7 @@ const PostWidget = ({
             <IconButton onClick={() => console.log("Edit clicked")}>
               <EditOutlined />
             </IconButton>
-            <IconButton onClick={() => onDelete(postId)}>
+            <IconButton onClick={() => handleDeletePost(postId)}>
               <DeleteForeverOutlined />
             </IconButton>
           </FlexBetween>
