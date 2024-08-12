@@ -25,7 +25,11 @@ const FriendListWidget = ({ userId }) => {
 
   useEffect(() => {
     getFriends();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [userId, token, dispatch]); // Ensure useEffect correctly re-runs only when necessary
+
+  if (!friends || friends.length === 0) {
+    return <div>No friends available</div>; // Or any other placeholder
+  }
 
   return (
     <WidgetWrapper>
@@ -35,12 +39,12 @@ const FriendListWidget = ({ userId }) => {
         fontWeight="500"
         sx={{ mb: "1.5rem" }}
       >
-        Friends List
+        Friend List
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
-        {friends.map((friend) => (
+        {friends.map((friend, index) => (
           <Friend
-            key={friend._id}
+            key={friend._id || index} // Backup key using index if _id is undefined
             friendId={friend._id}
             name={`${friend.firstName} ${friend.lastName}`}
             subtitle={friend.occupation}

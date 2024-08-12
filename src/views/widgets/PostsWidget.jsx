@@ -16,10 +16,9 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const data = await response.json();
     dispatch(setPosts({ posts: data }));
   };
-  
-  const refreshPosts = isProfile ? getUserPosts : getPosts;
+
   const getUserPosts = async () => {
-    const response = await fetch(`http://localhost:3001/${userId}/posts`, {
+    const response = await fetch(`http://localhost:3001/posts/${userId}/posts`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -27,22 +26,13 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
 
-  const handleDelete = async (postId) => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (response.ok) {
-      refreshPosts();
-      alert("Post deleted successfully");
-    } else {
-      alert("Failed to delete the post.");
-    }
-  };
-
   useEffect(() => {
-    refreshPosts();
-  }, [userId, refreshPosts]); 
+    if (isProfile && userId) {
+      getUserPosts();
+    } else {
+      getPosts();
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   return (
     <>
@@ -58,7 +48,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           userPicturePath={post.userPicturePath}
           likes={post.likes}
           comments={post.comments}
-          onDelete={handleDelete} 
+          onDelete={() => {}}
         />
       ))}
     </>
