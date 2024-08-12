@@ -2,7 +2,7 @@
 
 Welcome to PeakConnect, a mountainers-inspired social media project, designed and developed with versatility and robust functionality in mind. 
 
-<img src="./public/assets/logo.png">
+<img src="./public/logo.png">
 
 <hr>
 
