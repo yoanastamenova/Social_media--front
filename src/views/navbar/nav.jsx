@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import LandscapeIcon from '@mui/icons-material/Landscape';
 import {
   Box,
@@ -31,6 +32,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  console.log(user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -42,6 +44,10 @@ const Navbar = () => {
 
   const fullName = `${user.firstName} ${user.lastName}`;
 
+  const handleDashboardClick = () => {
+    navigate("/dashboard");
+  };
+  
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -74,10 +80,15 @@ const Navbar = () => {
           </FlexBetween>
         )}
       </FlexBetween>
-
+  
       {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
+          {user.role === 'admin' && (
+            <IconButton onClick={() => navigate("/dashboard")}>
+              <SupervisorAccountIcon sx={{ fontSize: "25px", color: dark }} />
+            </IconButton>
+          )}
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
               <DarkMode sx={{ fontSize: "25px" }} />
@@ -120,7 +131,7 @@ const Navbar = () => {
           <Menu />
         </IconButton>
       )}
-
+  
       {/* MOBILE NAV */}
       {!isNonMobileScreens && isMobileMenuToggled && (
         <Box
@@ -133,7 +144,6 @@ const Navbar = () => {
           minWidth="300px"
           backgroundColor={background}
         >
-          {/* CLOSE ICON */}
           <Box display="flex" justifyContent="flex-end" p="1rem">
             <IconButton
               onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
@@ -141,8 +151,7 @@ const Navbar = () => {
               <Close />
             </IconButton>
           </Box>
-
-          {/* MENU ITEMS */}
+  
           <FlexBetween
             display="flex"
             flexDirection="column"
@@ -150,9 +159,14 @@ const Navbar = () => {
             alignItems="center"
             gap="3rem"
           >
+            {/* Conditionally render Dashboard link for admins */}
+            {user.isAdmin && (
+              <IconButton onClick={() => navigate("/dashboard")}>
+                <SupervisorAccountIcon sx={{ fontSize: "25px", color: dark }} />
+              </IconButton>
+            )}
             <IconButton
               onClick={() => dispatch(setMode())}
-              sx={{ fontSize: "25px" }}
             >
               {theme.palette.mode === "dark" ? (
                 <DarkMode sx={{ fontSize: "25px" }} />
@@ -193,7 +207,7 @@ const Navbar = () => {
         </Box>
       )}
     </FlexBetween>
-  );
-};
+  );  
+}
 
 export default Navbar;
