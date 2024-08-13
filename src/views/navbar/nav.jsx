@@ -32,7 +32,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-  console.log(user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -43,10 +42,6 @@ const Navbar = () => {
   const alt = theme.palette.background.alt;
 
   const fullName = `${user.firstName} ${user.lastName}`;
-
-  const handleDashboardClick = () => {
-    navigate("/dashboard");
-  };
   
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
