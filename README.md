@@ -89,6 +89,7 @@ Used technologies for the project:
 
 - Browse users and manage them if wanted.
 - Select posts, delete posts and continuous development.
+- Graphs in development for statistics.
 
 #### Interactive UI:
 

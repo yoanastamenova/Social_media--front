@@ -8,6 +8,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import Admin from "views/Admin/Admin";
+import Users from "components/Users";
+import Posts from "components/Posts";
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -30,6 +32,8 @@ function App() {
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
             />
             <Route path="/dashboard" element={<Admin />} />
+            <Route path="/dashboard/users" element={<Users />} />
+            <Route path="/dashboard/posts" element={<Posts />} />
           </Routes>
           </ThemeProvider>
           </BrowserRouter>

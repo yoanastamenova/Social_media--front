@@ -1,17 +1,18 @@
 import React from 'react';
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import Navbar from '../../views/navbar/nav'; 
 import Sidebar from '../../components/Sidebar';
 
 const Admin = () => {
-  const theme = useTheme();
-  const backgroundColor = theme.palette.background.default;
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Navbar />
       <Box sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}>
         <Sidebar />
+        <Box padding="2rem 6%">
+        <div>Welcome to the Dashboard</div>
+        </Box>
       </Box>
     </Box>
   );
