@@ -10,7 +10,7 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 const Sidebar = () => {
  const [isCollapsed, setIsCollapsed] = useState(false);
     const theme = useTheme();
-    const background = theme.palette.mode === 'dark' ? '#000000' : theme.palette.background.default; // Manually set black for dark mode
+    const background = theme.palette.mode === 'dark' ? '#000000' : theme.palette.background.default;
 
   return (
     <Box>

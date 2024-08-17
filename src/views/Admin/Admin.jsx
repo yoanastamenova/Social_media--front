@@ -1,17 +1,26 @@
-import React from 'react';
-import { Box } from '@mui/material';
-import Navbar from '../../views/navbar/nav'; 
-import Sidebar from '../../components/Sidebar';
+import React from "react";
+import { Box } from "@mui/material";
+import Navbar from "../../views/navbar/nav";
+import Sidebar from "../../components/Sidebar";
 
 const Admin = () => {
-
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar />
-      <Box sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}>
+      <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
         <Sidebar />
         <Box padding="2rem 6%">
-        <div>Welcome to the Dashboard</div>
+          <div>Welcome to the Dashboard</div>
+          <Box
+            display="grid"
+            gridTemplateColumns="repeat(auto-fill, minmax(300px, 1fr))"
+            gap="20px"
+            m={3}
+          >
+            <div>GRAPH 1</div>
+            <div>GRAPH 2</div>
+            <div>GRAPH 3</div>
+          </Box>
         </Box>
       </Box>
     </Box>
