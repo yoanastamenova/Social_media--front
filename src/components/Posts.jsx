@@ -5,103 +5,118 @@ import Navbar from '../views/navbar/nav';
 import Sidebar from './Sidebar';
 
 const API_BASE_URL = 'http://localhost:3001/posts'; 
+
 const Posts = () => {
-    const [posts, setPosts] = useState([]);
-    const [error, setError] = useState("");
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState("");
 
-    const storedData = localStorage.getItem('persist:root');
-    const parsedData = storedData ? JSON.parse(storedData) : {};
-    const token = parsedData.token ? JSON.parse(parsedData.token) : null;
+  const storedData = localStorage.getItem('persist:root');
+  const parsedData = JSON.parse(storedData || '{}');
+  const token = JSON.parse(parsedData.token || '{}');
 
-    const handleUpdate = (post) => {
-        console.log("Updating post...");
-    };
+  const handleUpdate = (post) => {
+      console.log("Updating post:", post);
+  };
 
-    const handleDelete = async (postId) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/delete/${postId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || 'Failed to delete post');
-            }
-            setPosts(posts.filter(post => post._id !== postId));
-            console.log("Post deleted successfully"); 
-        } catch (error) {
-            console.error("Failed to delete post:", error.message);
-            setError("Failed to delete post: " + error.message);
+  const handleDelete = async (postId) => {
+      try {
+          const response = await fetch(`${API_BASE_URL}/delete/${postId}`, {
+              method: 'DELETE',
+              headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json'
+              }
+          });
+          if (!response.ok) {
+              const data = await response.json();
+              throw new Error(data.message || 'Failed to delete post');
+          }
+          setPosts(prevPosts => prevPosts.filter(post => post._id !== postId));
+          console.log("Post deleted successfully");
+      } catch (error) {
+          console.error("Failed to delete post:", error.message);
+          setError("Failed to delete post: " + error.message);
+      }
+  };
+
+  const columns = [
+    { field: '_id', headerName: 'ID', width: 90 },
+    { field: 'firstName', headerName: 'First Name', width: 150 },
+    { field: 'lastName', headerName: 'Last Name', width: 150 },
+    { field: 'description', headerName: 'Description', width: 250 },
+    {
+        field: 'likes',
+        headerName: 'Likes',
+        width: 90,
+        valueGetter: (params) => {
+            // additional check for params existence and properly accessing the likes
+            return params && params.row && params.row.likes ? Object.keys(params.row.likes).length : 0;
         }
-    };
-
-    const columns = [
-        { field: '_id', headerName: 'ID', width: 250 },
-        { field: 'firstName', headerName: 'First Name', width: 150 },
-        { field: 'lastName', headerName: 'Last Name', width: 150 },
-        { field: 'description', headerName: 'Description', width: 300 },
-        { field: 'likes', headerName: 'Likes', type: 'number', width: 100 },
-        { field: 'comments', headerName: 'Comments', type: 'number', width: 120 },
-        { field: 'createdAt', headerName: 'Created At', width: 180 },
-        {
-            field: "actions",
-            headerName: "Actions",
-            sortable: false,
-            width: 250,
-            renderCell: (params) => {
-                return (
-                    <>
-                        <Button
-                            color="primary"
-                            size="small"
-                            onClick={() => handleUpdate(params.row)}
-                            style={{ marginRight: 16 }}
-                        >
-                            Update
-                        </Button>
-                        <Button
-                            color="secondary"
-                            size="small"
-                            onClick={() => handleDelete(params.id)}
-                        >
-                            Delete
-                        </Button>
-                    </>
-                );
-            }
+    },
+    {
+        field: 'comments',
+        headerName: 'Comments',
+        width: 110,
+        valueGetter: (params) => {
+            // ensuring params and params.row are defined before accessing comments
+            return params && params.row && params.row.comments ? params.row.comments.length : 0;
         }
-    ];
-
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await fetch(`${API_BASE_URL}/all`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error(`Server responded with an error: ${response.status}`);
-                }
-                const postData = await response.json();
-                setPosts(postData);
-            } catch (error) {
-                console.error("Failed to fetch posts:", error.message);
-                setError(error.message);
-            }
-        };
-
-        if (token) {
-            fetchPosts();
+    },
+    { field: 'createdAt', headerName: 'Created At', width: 180 },
+    {
+        field: "actions",
+        headerName: "Actions",
+        sortable: false,
+        width: 200,
+        renderCell: (params) => {
+            return (
+                <>
+                    <Button
+                        color="primary"
+                        size="small"
+                        onClick={() => handleUpdate(params.row)}
+                        style={{ marginRight: 16 }}
+                    >
+                        Update
+                    </Button>
+                    <Button
+                        color="secondary"
+                        size="small"
+                        onClick={() => handleDelete(params.id)}
+                    >
+                        Delete
+                    </Button>
+                </>
+            );
         }
-    }, [token]);
+    }
+];
+  useEffect(() => {
+      if (token) {
+          const fetchPosts = async () => {
+              try {
+                  const response = await fetch(`${API_BASE_URL}/all`, {
+                      headers: {
+                          'Authorization': `Bearer ${token}`,
+                          'Content-Type': 'application/json'
+                      }
+                  });
+                  if (!response.ok) {
+                      throw new Error(`Server responded with an error: ${response.status}`);
+                  }
+                  const postData = await response.json();
+                  setPosts(postData);
+              } catch (error) {
+                  console.error("Failed to fetch posts:", error.message);
+                  setError(error.message);
+              }
+          };
 
-    return (
+          fetchPosts();
+      }
+  }, [token]);
+
+  return (
       <>
           <Navbar />
           <div style={{ display: 'flex', height: '100vh' }}>
@@ -126,6 +141,6 @@ const Posts = () => {
           </div>
       </>
   );
-}
+};
 
 export default Posts;
