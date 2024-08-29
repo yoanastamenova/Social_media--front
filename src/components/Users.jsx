@@ -18,9 +18,25 @@ const Users = () => {
         // Implementation for update logic here.
     };
 
-    const handleDelete = (userId) => {
-        console.log('Deleting user ID:', userId);
-        // Implementation for delete logic here.
+    const handleDelete = async (userId) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/delete/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Assuming you handle authentication
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to delete user');
+            }
+            setUsers(users.filter(user => user.id !== userId)); // Update the UI state
+            console.log(data.message); // Optional: Log success message from the server
+        } catch (error) {
+            console.error("Failed to delete user:", error.message);
+            setError("Failed to delete user: " + error.message);
+        }
     };
 
     const columns = [
@@ -31,8 +47,9 @@ const Users = () => {
         { field: 'location', headerName: 'Location', width: 150 },
         { field: 'occupation', headerName: 'Occupation', width: 180 },
         {
-            field: 'actions',
-            headerName: 'Actions',
+            field: "actions",
+            headerName: "Actions",
+            sortable: false,
             width: 200,
             renderCell: (params) => {
                 return (
@@ -40,8 +57,8 @@ const Users = () => {
                         <Button
                             color="primary"
                             size="small"
-                            style={{ marginLeft: 16 }}
                             onClick={() => handleUpdate(params.row)}
+                            style={{ marginRight: 16 }}
                         >
                             Update
                         </Button>
@@ -54,10 +71,8 @@ const Users = () => {
                         </Button>
                     </>
                 );
-            },
-            sortable: false,
-            filterable: false,
-        },
+            }
+        }
     ];
 
     useEffect(() => {
