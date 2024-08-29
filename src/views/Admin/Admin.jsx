@@ -21,9 +21,12 @@ import {
 } from "recharts";
 
 const data = [
-  { name: "Oct", users: 4000, posts: 2400, comments: 240 },
-  { name: "Nov", users: 3000, posts: 1398, comments: 139 },
-  { name: "Dec", users: 2000, posts: 9800, comments: 980 },
+  { name: "Oct", users: 400, posts: 1234, comments: 240 },
+  { name: "Nov", users: 800, posts: 798, comments: 139 },
+  { name: "Dec", users: 1200, posts: 2600, comments: 1880 },
+  { name: "Jan", users: 1500, posts: 1600, comments: 980 },
+  { name: "Feb", users: 1700, posts: 3600, comments: 1080 },
+  { name: "Mar", users: 2000, posts: 5600, comments: 1980 },
 ];
 
 const pieData = [
