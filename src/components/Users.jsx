@@ -15,7 +15,6 @@ const Users = () => {
 
     const handleUpdate = (user) => {
         console.log('Updating user:', user);
-        // Implementation for update logic here.
     };
 
     const handleDelete = async (userId) => {
@@ -23,7 +22,7 @@ const Users = () => {
             const response = await fetch(`${API_BASE_URL}/delete/${userId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${token}`, // Assuming you handle authentication
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });
@@ -31,8 +30,8 @@ const Users = () => {
             if (!response.ok) {
                 throw new Error(data.message || 'Failed to delete user');
             }
-            setUsers(users.filter(user => user.id !== userId)); // Update the UI state
-            console.log(data.message); // Optional: Log success message from the server
+            setUsers(users.filter(user => user.id !== userId));
+            console.log(data.message); 
         } catch (error) {
             console.error("Failed to delete user:", error.message);
             setError("Failed to delete user: " + error.message);
@@ -88,10 +87,10 @@ const Users = () => {
                 if (!response.ok) {
                     throw new Error(`Server responded with an error: ${response.status}`);
                 }
-                const userData = await response.json(); // Assuming response is directly the array
+                const userData = await response.json();
                 setUsers(userData.map(user => ({
                   ...user,
-                  id: user._id // DataGrid requires a unique 'id' property
+                  id: user._id
                 })));
             } catch (error) {
                 console.error("Failed to fetch users:", error.message);
