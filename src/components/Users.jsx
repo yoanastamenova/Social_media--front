@@ -1,110 +1,101 @@
-import React from 'react';
-import { Box, Typography } from '@mui/material';
-import { DataGrid } from "@mui/x-data-grid";
-import Navbar from '../views/navbar/nav'; 
-import Sidebar from './Sidebar';
+import React, { useState, useEffect } from 'react';
+// import { Box } from '@mui/material';
+// import { DataGrid } from "@mui/x-data-grid";
+// import Navbar from '../views/navbar/nav';
+// import Sidebar from './Sidebar';
 
+const API_BASE_URL = 'http://localhost:3001/users'; // Adjust according to your server
 
 const Users = () => {
-  const columns = [
-    { field: "id", headerName: "ID" },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "surname",
-      headerName: "Surname",
-      type: "string",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "accessLevel",
-      headerName: "Access Level",
-      flex: 1,
-      renderCell: ({ row: { access } }) => {
-        return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            backgroundColor={
-              access === "admin"
-                ? colors.greenAccent[600]
-                : access === "manager"
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
+    const [users, setUsers] = useState([]);
+    const [error, setError] = useState("");
+
+    // Retrieving and parsing the token correctly from localStorage
+    const storedData = localStorage.getItem('persist:root');
+    const parsedData = storedData ? JSON.parse(storedData) : {};
+    const token = parsedData.token ? JSON.parse(parsedData.token) : null; // Parsing the token JSON string
+
+    useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/all`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`Server responded with an error: ${response.status}`);
             }
-            borderRadius="4px"
-          >
-            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "manager" && <SecurityOutlinedIcon />}
-            {access === "user" && <LockOpenOutlinedIcon />}
-            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
-            </Typography>
-          </Box>
-        );
-      },
-    },
-  ];
-  
+            const users = await response.json(); // Directly assuming response is an array
+            console.log("Users fetched:", users);  // Check what the data looks like
+            setUsers(users); // Assume response is directly the array
+        } catch (error) {
+            console.error("Failed to fetch users:", error.message);
+            setError(error.message);
+        }
+    };
+        if (token) {
+            fetchUsers();
+        } else {
+            setError("No token found or authentication failed, please login.");
+        }
+    }, [token]);
+
+    const handleDeleteUser = async (userId) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Server responded with an error');
+            }
+            const result = await response.json();
+            if (result.success) {
+                setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+            } else {
+                throw new Error('Failed to delete user');
+            }
+        } catch (error) {
+            console.error("Failed to delete user:", error.message);
+            setError(error.message);
+        }
+    };
+
     return (
-      <>
-      <Navbar />
-      <Sidebar />
-    <Box m="20px">
-      <div>Registered users:</div> 
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-        }}
-      >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
-      </Box>
-    </Box>
-    </>
-  );
+        <>
+            <h3>List of Users Registered:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {users.map(user => (
+                    <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.email}</td>
+                        <td>{user.firstName}</td>
+                        <td>
+                            <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
+                        </td>
+                    </tr>
+                ))}
+                {users.length === 0 && <tr><td colSpan="4">No users found.</td></tr>}
+                </tbody>
+            </table>
+            {error && <p>Error: {error}</p>}
+        </>
+    );
 };
 
 export default Users;
-
