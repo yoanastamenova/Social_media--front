@@ -10,6 +10,7 @@ import { themeSettings } from "./theme";
 import Admin from "views/Admin/Admin";
 import Users from "components/Users";
 import Posts from "components/Posts";
+import { NotFound } from "views/NotFound/NotFound";
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -34,6 +35,7 @@ function App() {
             <Route path="/dashboard" element={<Admin />} />
             <Route path="/dashboard/users" element={<Users />} />
             <Route path="/dashboard/posts" element={<Posts />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           </ThemeProvider>
           </BrowserRouter>

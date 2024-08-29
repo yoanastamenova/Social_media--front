@@ -66,7 +66,7 @@ const PostWidget = ({
       if (response.ok) {
         alert("Post deleted successfully");
         if (onDelete) {
-          onDelete(postId); // Notify parent component to update the UI
+          onDelete(postId); 
         }
       } else {
         const errorData = await response.json();

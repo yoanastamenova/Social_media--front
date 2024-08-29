@@ -49,7 +49,6 @@ const Posts = () => {
         headerName: 'Likes',
         width: 90,
         valueGetter: (params) => {
-            // additional check for params existence and properly accessing the likes
             return params && params.row && params.row.likes ? Object.keys(params.row.likes).length : 0;
         }
     },
@@ -58,7 +57,6 @@ const Posts = () => {
         headerName: 'Comments',
         width: 110,
         valueGetter: (params) => {
-            // ensuring params and params.row are defined before accessing comments
             return params && params.row && params.row.comments ? params.row.comments.length : 0;
         }
     },

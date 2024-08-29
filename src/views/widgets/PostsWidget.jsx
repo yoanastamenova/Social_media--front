@@ -32,7 +32,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []); 
 
   return (
     <>
