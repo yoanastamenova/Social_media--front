@@ -17,7 +17,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  Text,
 } from "recharts";
 
 const data = [

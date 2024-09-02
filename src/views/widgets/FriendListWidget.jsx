@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "state";
 
@@ -11,7 +11,7 @@ const FriendListWidget = ({ userId }) => {
   const token = useSelector((state) => state.token);
   const friends = useSelector((state) => state.user.friends);
 
-  const getFriends = async () => {
+  const getFriends = useCallback(async () => {
     const response = await fetch(
       `http://localhost:3001/users/${userId}/friends`,
       {
@@ -21,14 +21,14 @@ const FriendListWidget = ({ userId }) => {
     );
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
-  };
+  }, [userId, token, dispatch]);
 
   useEffect(() => {
     getFriends();
-  }, [userId, token, dispatch]); // Ensure useEffect correctly re-runs only when necessary
+  }, [getFriends]); // now getFriends is included in the dependency array
 
   if (!friends || friends.length === 0) {
-    return <div>No friends available</div>; // Or any other placeholder
+    return <div>No friends available</div>;
   }
 
   return (
@@ -44,7 +44,7 @@ const FriendListWidget = ({ userId }) => {
       <Box display="flex" flexDirection="column" gap="1.5rem">
         {friends.map((friend, index) => (
           <Friend
-            key={friend._id || index} // Backup key using index if _id is undefined
+            key={friend._id || index}
             friendId={friend._id}
             name={`${friend.firstName} ${friend.lastName}`}
             subtitle={friend.occupation}
