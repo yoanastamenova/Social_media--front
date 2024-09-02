@@ -145,11 +145,11 @@ const Admin = () => {
               <PieChart width={700} height={350}>
                 <Pie
                   data={pieData}
-                  cx={350} // Center x-coordinate adjusted for the new width
-                  cy={175} // Center y-coordinate adjusted for the new height
+                  cx={350} 
+                  cy={175}
                   labelLine={false}
                   label={renderCustomizedLabel}
-                  outerRadius={140} // Slightly reduced outer radius
+                  outerRadius={140}
                   fill="#8884d8"
                   dataKey="value"
                 >

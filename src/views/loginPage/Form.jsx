@@ -6,14 +6,14 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
-} from "@mui/material"; //mui materials
+} from "@mui/material"; 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
-import * as yup from "yup"; //validation library
-import { useNavigate } from "react-router-dom"; //to navigate between pages
+import * as yup from "yup"; 
+import { useNavigate } from "react-router-dom"; 
 import { useDispatch } from "react-redux";
-import { setLogin } from "state"; //state controling
-import Dropzone from "react-dropzone"; //files uploading option
+import { setLogin } from "state"; 
+import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 
 const registerSchema = yup.object().shape({
@@ -56,7 +56,7 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {
-    const formData = new FormData();      //by this we can send form info with img
+    const formData = new FormData(); 
     for (let value in values) {
       formData.append(value, values[value]);
     }

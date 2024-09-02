@@ -154,7 +154,6 @@ const Navbar = () => {
             alignItems="center"
             gap="3rem"
           >
-            {/* Conditionally render Dashboard link for admins */}
             {user.isAdmin && (
               <IconButton onClick={() => navigate("/dashboard")}>
                 <SupervisorAccountIcon sx={{ fontSize: "25px", color: dark }} />

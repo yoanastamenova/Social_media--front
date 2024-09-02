@@ -25,7 +25,7 @@ const FriendListWidget = ({ userId }) => {
 
   useEffect(() => {
     getFriends();
-  }, [getFriends]); // now getFriends is included in the dependency array
+  }, [getFriends]);
 
   if (!friends || friends.length === 0) {
     return <div>No friends available</div>;

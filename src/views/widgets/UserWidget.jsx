@@ -57,14 +57,14 @@ const UserWidget = ({ userId, picturePath }) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Ensure token is valid and not expired
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           firstName: editableUser.firstName,
           lastName: editableUser.lastName,
           location: editableUser.location,
           occupation: editableUser.occupation,
-          email: editableUser.email, // Add other fields as per your user model
+          email: editableUser.email,
         }),
       });
       if (!response.ok) {
